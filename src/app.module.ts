@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { DeliveriesController } from './deliveries/deliveries.controller';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
@@ -12,15 +10,13 @@ import { DeliveriesModule } from './deliveries/deliveries.module';
   imports: [
     AuthModule,
     UsersModule,
-    ConfigModule.forRoot({isGlobal: true}),
-    DeliveriesModule
+    DeliveriesModule,
+    ConfigModule.forRoot({isGlobal: true})
   ],
   controllers: [
-    AppController,
     DeliveriesController
   ],
   providers: [
-    AppService,
     DeliveriesService
   ],
 })

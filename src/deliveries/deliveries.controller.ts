@@ -1,9 +1,9 @@
 import { BadRequestException, Body, Controller, Get, Post, Put, Query, Request, UseGuards } from '@nestjs/common';
 import { PagedListRequest } from 'src/requests/pagedList.request';
 import { PagedListResponse } from 'src/responses/pagedList.response';
-import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+import { JwtAuthGuard } from "src/guards/jwt-auth.guard";
 import { AllowedUserTypes } from 'src/decorators/allowed-user-types.decorator';
-import { UserTypeGuard } from 'src/auth/user-type.guard';
+import { UserTypeGuard } from 'src/guards/user-type.guard';
 import { UserType } from 'src/users/enum.user-type';
 import { CreateDeliveryDto } from './create-delivery.dto';
 import { DeliveriesService } from './deliveries.service';

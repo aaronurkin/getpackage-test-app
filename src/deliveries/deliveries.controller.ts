@@ -4,7 +4,7 @@ import { PagedListResponse } from 'src/responses/pagedList.response';
 import { JwtAuthGuard } from "src/guards/jwt-auth.guard";
 import { AllowedUserTypes } from 'src/decorators/allowed-user-types.decorator';
 import { UserTypeGuard } from 'src/guards/user-type.guard';
-import { UserType } from 'src/users/enum.user-type';
+import { UserType } from 'src/requests/enum.user-type';
 import { CreateDeliveryRequest } from '../requests/create-delivery.request';
 import { DeliveriesService } from './deliveries.service';
 import { AssignDeliveryRequest } from '../requests/assign-delivery.request';

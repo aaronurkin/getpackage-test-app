@@ -1,8 +1,8 @@
-export class SenderDeliveryDto {
+export class CourierDeliveryResponse {
     id: number;
     date: Date;
     name: string;
     cost: number;
-    assignedTo: number;
+    senderId: number;
     description: string;
 }

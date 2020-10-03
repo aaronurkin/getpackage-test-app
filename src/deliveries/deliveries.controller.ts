@@ -5,12 +5,12 @@ import { JwtAuthGuard } from "src/guards/jwt-auth.guard";
 import { AllowedUserTypes } from 'src/decorators/allowed-user-types.decorator';
 import { UserTypeGuard } from 'src/guards/user-type.guard';
 import { UserType } from 'src/users/enum.user-type';
-import { CreateDeliveryDto } from '../requests/create-delivery.dto';
+import { CreateDeliveryRequest } from '../requests/create-delivery.request';
 import { DeliveriesService } from './deliveries.service';
-import { AssignDeliveryDto } from '../requests/assign-delivery.dto';
-import { SenderDeliveryDto } from '../responses/sender-delivery.dto';
-import { GetPagedDeliveriesDto } from '../requests/get-paged-deliveries.dto';
-import { CourierDeliveryDto } from '../responses/courier-delivery.dto';
+import { AssignDeliveryRequest } from '../requests/assign-delivery.request';
+import { SenderDeliveryResponse } from '../responses/sender-delivery.response';
+import { GetPagedDeliveriesRequest } from '../requests/get-paged-deliveries.request';
+import { CourierDeliveryResponse } from '../responses/courier-delivery.response';
 
 @Controller('deliveries')
 export class DeliveriesController {
@@ -19,10 +19,10 @@ export class DeliveriesController {
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    async getPage(@Query() query : PagedListRequest, @Request() request) : Promise<PagedListResponse<SenderDeliveryDto> | PagedListResponse<CourierDeliveryDto>> {
+    async getPage(@Query() query : PagedListRequest, @Request() request) : Promise<PagedListResponse<SenderDeliveryResponse> | PagedListResponse<CourierDeliveryResponse>> {
 
         // TODO: Replace data transfer object initialization with mapper call
-        const model: GetPagedDeliveriesDto = {
+        const model: GetPagedDeliveriesRequest = {
             userId: request.user.id,
             pageNumber: query.pageNumber,
             pageItemsCount: query.pageItemsCount
@@ -37,7 +37,7 @@ export class DeliveriesController {
                     pageItemsCount: senderDeliveries.pageItemsCount,
                     totalItemsCount: senderDeliveries.totalItemsCount,
                     totalPagesCount: senderDeliveries.totalPagesCount,
-                    items: senderDeliveries.items.map<SenderDeliveryDto>(delivery => {
+                    items: senderDeliveries.items.map<SenderDeliveryResponse>(delivery => {
                         return {
                             id: delivery.id,
                             name: delivery.name,
@@ -56,7 +56,7 @@ export class DeliveriesController {
                     pageItemsCount: courierDeliveries.pageItemsCount,
                     totalItemsCount: courierDeliveries.totalItemsCount,
                     totalPagesCount: courierDeliveries.totalPagesCount,
-                    items: courierDeliveries.items.map<CourierDeliveryDto>(delivery => {
+                    items: courierDeliveries.items.map<CourierDeliveryResponse>(delivery => {
                         return {
                             id: delivery.id,
                             name: delivery.name,
@@ -75,7 +75,7 @@ export class DeliveriesController {
     @AllowedUserTypes(UserType.sender)
     @UseGuards(JwtAuthGuard, UserTypeGuard)
     @Post('add')
-    async add(@Body() model : CreateDeliveryDto, @Request() request): Promise<SenderDeliveryDto> {
+    async add(@Body() model : CreateDeliveryRequest, @Request() request): Promise<SenderDeliveryResponse> {
 
         // TODO: Replace delivery initialization with mapper call
         const delivery = await this.service.create({
@@ -104,7 +104,7 @@ export class DeliveriesController {
     @AllowedUserTypes(UserType.sender)
     @UseGuards(JwtAuthGuard, UserTypeGuard)
     @Put('assign')
-    async assign(@Body() model : AssignDeliveryDto, @Request() request): Promise<SenderDeliveryDto> {
+    async assign(@Body() model : AssignDeliveryRequest, @Request() request): Promise<SenderDeliveryResponse> {
 
         const delivery = await this.service.assign({
             date: model.date,

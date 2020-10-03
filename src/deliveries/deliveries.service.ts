@@ -1,7 +1,7 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PagedListResponse } from 'src/responses/pagedList.response';
 import { Delivery } from '../entities/delivery.entity';
-import { GetPagedDeliveriesDto } from '../requests/get-paged-deliveries.dto';
+import { GetPagedDeliveriesRequest } from '../requests/get-paged-deliveries.request';
 
 @Injectable()
 export class DeliveriesService {
@@ -55,7 +55,7 @@ export class DeliveriesService {
         return delivery;
     }
 
-    async getPagedSenderDeliveries(model: GetPagedDeliveriesDto): Promise<PagedListResponse<Delivery>> {
+    async getPagedSenderDeliveries(model: GetPagedDeliveriesRequest): Promise<PagedListResponse<Delivery>> {
 
         const paged = new PagedListResponse<Delivery>(this.deliveries.filter(d => d.senderId == model.userId), model.pageNumber, model.pageItemsCount);
 
@@ -66,7 +66,7 @@ export class DeliveriesService {
         return paged;
     }
 
-    async getPagedCourierDeliveries(model: GetPagedDeliveriesDto): Promise<PagedListResponse<Delivery>> {
+    async getPagedCourierDeliveries(model: GetPagedDeliveriesRequest): Promise<PagedListResponse<Delivery>> {
 
         const paged = new PagedListResponse<Delivery>(this.deliveries.filter(d => d.assignedTo == model.userId), model.pageNumber, model.pageItemsCount);
 

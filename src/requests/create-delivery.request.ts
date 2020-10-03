@@ -1,4 +1,4 @@
-export class CreateDeliveryDto {
+export class CreateDeliveryRequest {
 	name: string;
     cost: number;
 	packageSize: number;

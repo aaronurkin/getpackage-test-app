@@ -5,12 +5,12 @@ import { JwtAuthGuard } from "src/guards/jwt-auth.guard";
 import { AllowedUserTypes } from 'src/decorators/allowed-user-types.decorator';
 import { UserTypeGuard } from 'src/guards/user-type.guard';
 import { UserType } from 'src/users/enum.user-type';
-import { CreateDeliveryDto } from './create-delivery.dto';
+import { CreateDeliveryDto } from '../requests/create-delivery.dto';
 import { DeliveriesService } from './deliveries.service';
-import { AssignDeliveryDto } from './assign-delivery.dto';
-import { SenderDeliveryDto } from './sender-delivery.dto';
-import { GetPagedDeliveriesDto } from './get-paged-deliveries.dto';
-import { CourierDeliveryDto } from './courier-delivery.dto';
+import { AssignDeliveryDto } from '../requests/assign-delivery.dto';
+import { SenderDeliveryDto } from '../responses/sender-delivery.dto';
+import { GetPagedDeliveriesDto } from '../requests/get-paged-deliveries.dto';
+import { CourierDeliveryDto } from '../responses/courier-delivery.dto';
 
 @Controller('deliveries')
 export class DeliveriesController {

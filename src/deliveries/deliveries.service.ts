@@ -1,6 +1,6 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PagedListResponse } from 'src/responses/pagedList.response';
-import { Delivery } from './delivery.entity';
+import { Delivery } from '../entities/delivery.entity';
 import { GetPagedDeliveriesDto } from './get-paged-deliveries.dto';
 
 @Injectable()

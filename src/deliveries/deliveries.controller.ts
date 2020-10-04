@@ -4,7 +4,7 @@ import { PagedListResponse } from 'src/responses/pagedList.response';
 import { JwtAuthGuard } from "src/guards/jwt-auth.guard";
 import { AllowedUserTypes } from 'src/decorators/allowed-user-types.decorator';
 import { UserTypeGuard } from 'src/guards/user-type.guard';
-import { UserType } from 'src/requests/enum.user-type';
+import { UserType } from 'src/enums/enum.user-type';
 import { CreateDeliveryRequest } from '../requests/create-delivery.request';
 import { DeliveriesService } from './deliveries.service';
 import { AssignDeliveryRequest } from '../requests/assign-delivery.request';
@@ -79,12 +79,11 @@ export class DeliveriesController {
 
         // TODO: Replace delivery initialization with mapper call
         const delivery = await this.service.create({
-            id: null,
             to: model.to,
             from: model.from,
             cost: model.cost,
             name: model.name,
-            date: new Date(),
+            date: model.date,
             senderId: request.user.id,
             assignedTo: model.assignedTo,
             description: model.description,

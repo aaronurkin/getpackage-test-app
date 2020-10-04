@@ -6,4 +6,5 @@ export class CreateDeliveryRequest {
 	assignedTo?: number;
 	from: string;
 	to: string;
+	date: Date;
 }

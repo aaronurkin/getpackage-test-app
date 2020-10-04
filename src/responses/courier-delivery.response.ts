@@ -1,8 +1,5 @@
-export class CourierDeliveryResponse {
-    id: number;
-    date: Date;
-    name: string;
-    cost: number;
+import { DeliveryResponse } from "./delivery-response";
+
+export class CourierDeliveryResponse extends DeliveryResponse {
     senderId: number;
-    description: string;
 }

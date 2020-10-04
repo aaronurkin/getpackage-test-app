@@ -1,4 +1,5 @@
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { DeliveryType } from 'src/enums/enum.delivery-type';
 import { PagedListResponse } from 'src/responses/pagedList.response';
 import { Delivery } from '../entities/delivery.entity';
 import { GetPagedDeliveriesRequest } from '../requests/get-paged-deliveries.request';
@@ -11,10 +12,14 @@ export class DeliveriesService {
     constructor() {
         this.deliveries = [];
     }
+    async create(model: Partial<Delivery>): Promise<Delivery> {
 
-    async create(delivery: Delivery): Promise<Delivery> {
+        const delivery = model as Delivery;
 
         delivery.id = this.deliveries.length + 1;
+        delivery.type = DeliveryType.awaiting;
+        delivery.dateCreated = new Date();
+
         this.deliveries.push(delivery);
 
         return delivery;
@@ -49,8 +54,12 @@ export class DeliveriesService {
 
         if (!delivery.assignedTo) {
 
+            delivery.dateAssigned = new Date();
+            delivery.type = DeliveryType.assigned;
             delivery.assignedTo = model.assignedTo;
-            this.deliveries[this.deliveries.findIndex(d => d.id === delivery.id)] = delivery;
+
+            const deliveryIndex = this.deliveries.findIndex(d => d.id === delivery.id);
+            this.deliveries[deliveryIndex] = delivery;
 
         } else if(delivery.assignedTo != model.assignedTo) {
 

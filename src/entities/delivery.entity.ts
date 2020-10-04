@@ -1,5 +1,6 @@
 export class Delivery {
-    id: number;
+	id: number;
+	type: string;
 	packageSize: number;
 	cost: number;
 	name: string;
@@ -9,4 +10,6 @@ export class Delivery {
 	to: string;
     senderId: number;
     assignedTo?: number;
+	dateCreated: Date;
+	dateAssigned?: Date;
 }

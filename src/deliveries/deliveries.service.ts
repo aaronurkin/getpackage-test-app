@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PagedListResponse } from 'src/responses/pagedList.response';
 import { Delivery } from '../entities/delivery.entity';
 import { GetPagedDeliveriesRequest } from '../requests/get-paged-deliveries.request';
@@ -47,10 +47,15 @@ export class DeliveriesService {
             throw new ForbiddenException();
         }
 
-        //TODO: Validate if the delivery isn't assingned to somebody yet or already assingned to the same courier
+        if (!delivery.assignedTo) {
 
-        delivery.assignedTo = model.assignedTo;
-        this.deliveries[this.deliveries.findIndex(d => d.id === delivery.id)] = delivery;
+            delivery.assignedTo = model.assignedTo;
+            this.deliveries[this.deliveries.findIndex(d => d.id === delivery.id)] = delivery;
+
+        } else if(delivery.assignedTo != model.assignedTo) {
+
+            throw new ConflictException('Delivery has already been assigned');
+        }
 
         return delivery;
     }

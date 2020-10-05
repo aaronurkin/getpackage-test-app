@@ -1,7 +1,7 @@
 import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeliveryType } from 'src/enums/enum.delivery-type';
-import { PagedListResponse } from 'src/responses/pagedList.response';
+import { PagedListResponse } from 'src/responses/paged-list.response';
 import { DeliveryEntity } from '../entities/delivery.entity';
 import { GetPagedDeliveriesRequest } from '../requests/get-paged-deliveries.request';
 

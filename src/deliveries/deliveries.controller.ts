@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, Get, Post, Put, Query, Request, UseGuards } from '@nestjs/common';
 import { PagedListRequest } from 'src/requests/pagedList.request';
-import { PagedListResponse } from 'src/responses/pagedList.response';
+import { PagedListResponse } from 'src/responses/paged-list.response';
 import { JwtAuthGuard } from "src/guards/jwt-auth.guard";
 import { AllowedUserTypes } from 'src/decorators/allowed-user-types.decorator';
 import { UserTypeGuard } from 'src/guards/user-type.guard';
@@ -74,6 +74,7 @@ export class DeliveriesController {
 
     @AllowedUserTypes(UserType.sender)
     @UseGuards(JwtAuthGuard, UserTypeGuard)
+
     @Post('add')
     async add(@Body() model : CreateDeliveryRequest, @Request() request): Promise<SenderDeliveryResponse> {
 

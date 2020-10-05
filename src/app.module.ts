@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DeliveriesService } from './deliveries/deliveries.service';
 import { DeliveriesModule } from './deliveries/deliveries.module';
 import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
+import { RevenueModule } from './revenue/revenue.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
     UsersModule,
     DeliveriesModule,
     InMemoryDBModule.forRoot({}),
-    ConfigModule.forRoot({isGlobal: true})
+    ConfigModule.forRoot({isGlobal: true}),
+    RevenueModule
   ],
   controllers: [
     DeliveriesController

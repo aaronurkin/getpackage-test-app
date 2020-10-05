@@ -1,7 +1,7 @@
 import { DeliveryType } from "src/enums/enum.delivery-type";
 
 export class DeliveryResponse {
-    id: number;
+    id: string;
     date: Date;
     name: string;
     cost: number;

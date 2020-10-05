@@ -1,31 +1,27 @@
+import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeliveryType } from 'src/enums/enum.delivery-type';
 import { PagedListResponse } from 'src/responses/pagedList.response';
-import { Delivery } from '../entities/delivery.entity';
+import { DeliveryEntity } from '../entities/delivery.entity';
 import { GetPagedDeliveriesRequest } from '../requests/get-paged-deliveries.request';
 
 @Injectable()
 export class DeliveriesService {
 
-    private deliveries: Array<Delivery>;
-
-    constructor() {
-        this.deliveries = [];
+    constructor(private readonly db: InMemoryDBService<DeliveryEntity>) {
     }
-    async create(model: Partial<Delivery>): Promise<Delivery> {
 
-        const delivery = model as Delivery;
+    async create(model: Partial<DeliveryEntity>): Promise<DeliveryEntity> {
 
-        delivery.id = this.deliveries.length + 1;
+        const delivery = model as DeliveryEntity;
+
         delivery.type = DeliveryType.awaiting;
         delivery.dateCreated = new Date();
 
-        this.deliveries.push(delivery);
-
-        return delivery;
+        return this.db.create(delivery);
     }
 
-    async assign(model: Partial<Delivery>): Promise<Delivery> {
+    async assign(model: Partial<DeliveryEntity>): Promise<DeliveryEntity> {
 
         const dateTo = new Date(model.date);
         const dateFrom = new Date(model.date);
@@ -33,7 +29,7 @@ export class DeliveriesService {
         dateFrom.setHours(0, 0, 0, 0);
         dateTo.setHours(23, 59, 59, 999);
 
-        const deliveries = this.deliveries.filter(d => d.assignedTo === model.assignedTo && d.date >= dateFrom && d.date <= dateTo);
+        const deliveries = this.db.query(d => d.assignedTo === model.assignedTo && d.date >= dateFrom && d.date <= dateTo);
 
         if (deliveries.length >= 5) {
             //TODO: What options the sender has to get instead of the exception?
@@ -42,7 +38,7 @@ export class DeliveriesService {
             throw new BadRequestException("The courier has maximum deliveries assigned");
         }
 
-        const delivery = this.deliveries.find(d => d.id == model.id && d.senderId == model.senderId);
+        const delivery = this.db.get(model.id);
 
         if (!delivery) {
             throw new NotFoundException("Delivery was not found");
@@ -58,8 +54,7 @@ export class DeliveriesService {
             delivery.type = DeliveryType.assigned;
             delivery.assignedTo = model.assignedTo;
 
-            const deliveryIndex = this.deliveries.findIndex(d => d.id === delivery.id);
-            this.deliveries[deliveryIndex] = delivery;
+            this.db.update(delivery);
 
         } else if(delivery.assignedTo != model.assignedTo) {
 
@@ -69,9 +64,9 @@ export class DeliveriesService {
         return delivery;
     }
 
-    async getPagedSenderDeliveries(model: GetPagedDeliveriesRequest): Promise<PagedListResponse<Delivery>> {
+    async getPagedSenderDeliveries(model: GetPagedDeliveriesRequest): Promise<PagedListResponse<DeliveryEntity>> {
 
-        const paged = new PagedListResponse<Delivery>(this.deliveries.filter(d => d.senderId == model.userId), model.pageNumber, model.pageItemsCount);
+        const paged = new PagedListResponse<DeliveryEntity>(this.db.query(d => d.senderId == model.userId), model.pageNumber, model.pageItemsCount);
 
         if (!paged.items || paged.items.length == 0) {
             throw new NotFoundException("Deliveries created by you were not found");
@@ -80,9 +75,9 @@ export class DeliveriesService {
         return paged;
     }
 
-    async getPagedCourierDeliveries(model: GetPagedDeliveriesRequest): Promise<PagedListResponse<Delivery>> {
+    async getPagedCourierDeliveries(model: GetPagedDeliveriesRequest): Promise<PagedListResponse<DeliveryEntity>> {
 
-        const paged = new PagedListResponse<Delivery>(this.deliveries.filter(d => d.assignedTo == model.userId), model.pageNumber, model.pageItemsCount);
+        const paged = new PagedListResponse<DeliveryEntity>(this.db.query(d => d.assignedTo == model.userId), model.pageNumber, model.pageItemsCount);
 
         if (!paged.items || paged.items.length == 0) {
             throw new NotFoundException("Deliveries assigned to you were not found");

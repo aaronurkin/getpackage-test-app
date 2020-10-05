@@ -1,5 +1,6 @@
-export class Delivery {
-	id: number;
+import { InMemoryDBEntity } from "@nestjs-addons/in-memory-db";
+
+export interface DeliveryEntity extends InMemoryDBEntity {
 	type: string;
 	packageSize: number;
 	cost: number;

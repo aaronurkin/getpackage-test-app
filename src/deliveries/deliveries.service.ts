@@ -4,6 +4,7 @@ import { DeliveryType } from 'src/enums/enum.delivery-type';
 import { PagedListResponse } from 'src/responses/paged-list.response';
 import { DeliveryEntity } from '../entities/delivery.entity';
 import { GetPagedDeliveriesRequest } from '../requests/get-paged-deliveries.request';
+import { GetCourierDeliveriesRangeDto } from './get-courier-deliveries-range.dto';
 
 @Injectable()
 export class DeliveriesService {
@@ -103,6 +104,10 @@ export class DeliveriesService {
         }
 
         return delivery;
+    }
+
+    getCourierDeliveries(model: Partial<GetCourierDeliveriesRangeDto>){
+        return this.db.query(d => (!model.deliveryType || d.type == model.deliveryType) && d.assignedTo == model.courierId && d.date >= model.dateFrom && model.dateTo < d.date );
     }
 
     async getPagedSenderDeliveries(model: GetPagedDeliveriesRequest): Promise<PagedListResponse<DeliveryEntity>> {

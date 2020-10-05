@@ -5,9 +5,6 @@ export class PagedListResponse<TItems> {
         pageItemsCount: number,
         mapfn: (item: any) => TItems = undefined) {
 
-        pageNumber = Number(pageNumber);
-        pageItemsCount = Number(pageItemsCount);
-
         const take: number = pageNumber * pageItemsCount;
         const skip: number = Math.max((pageNumber - 1 ) * pageItemsCount, 0);
         const pagedItems = !mapfn ? items.slice(skip, take) : items.slice(skip, take).map(mapfn);

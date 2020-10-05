@@ -25,7 +25,9 @@ export class DeliveriesController {
         const model: GetPagedDeliveriesRequest = {
             userId: request.user.id,
             pageNumber: query.pageNumber,
-            pageItemsCount: query.pageItemsCount
+            pageItemsCount: query.pageItemsCount,
+            dateFrom: query.dateFrom,
+            dateTo: query.dateTo
         };
 
        switch (request.user.type) {

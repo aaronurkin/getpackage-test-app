@@ -1,6 +1,6 @@
 export class AssignDeliveryRequest {
     date: Date;
-    senderId: number;
-    courierId: number;
+    senderId: string;
+    courierId: string;
     deliveryId: string;
 }

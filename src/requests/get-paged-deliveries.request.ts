@@ -1,5 +1,5 @@
 export class GetPagedDeliveriesRequest {
-    userId: number;
+    userId: string;
     pageNumber: number;
     pageItemsCount: number;
 }

@@ -3,7 +3,7 @@ export class CreateDeliveryRequest {
     cost: number;
 	packageSize: number;
 	description: string;
-	assignedTo?: number;
+	assignedTo?: string;
 	from: string;
 	to: string;
 	date: Date;

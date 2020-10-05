@@ -9,8 +9,8 @@ export interface DeliveryEntity extends InMemoryDBEntity {
 	date: Date;
 	from: string;
 	to: string;
-    senderId: number;
-    assignedTo?: number;
+    senderId: string;
+    assignedTo?: string;
 	dateCreated: Date;
 	dateAssigned?: Date;
 }

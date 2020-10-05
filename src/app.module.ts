@@ -5,12 +5,14 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { DeliveriesService } from './deliveries/deliveries.service';
 import { DeliveriesModule } from './deliveries/deliveries.module';
+import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
     DeliveriesModule,
+    InMemoryDBModule.forRoot({}),
     ConfigModule.forRoot({isGlobal: true})
   ],
   controllers: [

@@ -6,6 +6,7 @@ import { UsersService } from 'src/users/users.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LocalStrategy } from './strategies/local.strategy';
+import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { LocalStrategy } from './strategies/local.strategy';
           expiresIn: configService.get<string>('JWT_EXPIRES_IN', '30d'),
         },
       })
-    })
+    }),
+    InMemoryDBModule.forRoot({})
   ],
   providers: [
     AuthService,

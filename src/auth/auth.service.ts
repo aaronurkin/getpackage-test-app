@@ -21,9 +21,9 @@ export class AuthService {
         }
     }
 
-    async validateUser(email: string, password: string) {
+    async validateUser(userName: string, password: string) {
 
-        const user = await this.userService.findByUserName(email);
+        const user = await this.userService.findByUserName(userName);
 
         //TODO: Add password encription and use password hash comparison instead
         if ( user !== undefined && user.password == password ) {
